@@ -1,4 +1,4 @@
-import { AppState, Auth0Provider, User } from "@auth0/auth0-react";
+import { Auth0Provider } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
@@ -16,8 +16,8 @@ const Auth0ProviderWithNavigate = ({ children }: Props) => {
         throw new Error("Missing environment variables from Auth 0")
     }
     
-    const onRedirectCallback = (appState?: AppState, user?: User) => {
-        navigate(appState?.returnTo || "/auth-callback");        
+    const onRedirectCallback = () => {
+        navigate("/auth-callback");        
     };
     
     return (
