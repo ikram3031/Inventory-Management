@@ -5,6 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import LoadingButton from "@/components/LoadingButton";
+import { User } from "@/types";
+import { useEffect } from "react";
 
 const formSchema = z.object({
     email: z.string().optional(),
@@ -18,13 +20,19 @@ type UserFormdata = z.infer<typeof formSchema>;
 
 type Props = {
     onSave: (userProfileData: UserFormdata) => void;
-    isLoading: boolean
+    isLoading: boolean;
+    currentUser: User
 }
 
-const UserProfileForm = ({ onSave, isLoading } : Props) => {
+const UserProfileForm = ({ onSave, isLoading, currentUser } : Props) => {
     const form = useForm<UserFormdata>({
         resolver: zodResolver(formSchema),
+        defaultValues: currentUser
     })
+    
+    useEffect(() => {
+        form.reset(currentUser);
+    }, [currentUser, form]);
     
     return (
         <Form {...form}>
